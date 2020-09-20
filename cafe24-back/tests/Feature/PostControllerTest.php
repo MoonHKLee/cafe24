@@ -28,7 +28,7 @@ class PostControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure(['posts']);
 
-        $this->assertDatabaseCount('posts',3);
+        $this->assertDatabaseCount('posts', 3);
     }
 
     public function test_create_post()
@@ -115,11 +115,11 @@ class PostControllerTest extends TestCase
         $post = $this->savePost($user, '삭제 할 제목', '삭제 할 내용');
 
         //when
-        $response = $this->delete("/api/post/{$post->id}", [],['Authorization' => 'Bearer ' . $token]);
+        $response = $this->delete("/api/post/{$post->id}", [], ['Authorization' => 'Bearer ' . $token]);
 
         //then
         $response->assertStatus(Response::HTTP_OK)
-            ->assertJson(['post_id'=>$post->id]);
+            ->assertJson(['post_id' => $post->id]);
 
         $this->assertDatabaseHas(
             'posts',
@@ -129,7 +129,6 @@ class PostControllerTest extends TestCase
                 'is_deleted' => true,
             ]
         );
-
     }
 
     private function passportInstall()

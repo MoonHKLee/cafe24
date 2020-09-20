@@ -8,35 +8,46 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use Validator;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|confirmed'
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users,email',
+                'password' => 'required|string|confirmed'
+            ]
+        );
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        $user = User::create(
+            [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]
+        );
 
-        return response()->json([
-            'user' => $user
-        ], 201);
+        return response()->json(
+            [
+                'user' => $user
+            ],
+            201
+        );
     }
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
-            'password' => 'required|string'
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|string|email',
+                'password' => 'required|string'
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json(
@@ -51,10 +62,13 @@ class AuthController extends Controller
         $user = User::find($id);
 
         $token = $user->createToken('Personal Access Token')->accessToken;
-        return response()->json([
-            'token' => $token,
-            'me' => $user
-        ], Response::HTTP_OK);
+        return response()->json(
+            [
+                'token' => $token,
+                'me' => $user
+            ],
+            Response::HTTP_OK
+        );
     }
 
     public function logout()
@@ -63,10 +77,13 @@ class AuthController extends Controller
         printf($user);
         $user->token()->revoke();
 
-        return response()->json([
-            'message' => 'The user has been successfully logged out',
-            'user' => $user
-        ], Response::HTTP_OK);
+        return response()->json(
+            [
+                'message' => 'The user has been successfully logged out',
+                'user' => $user
+            ],
+            Response::HTTP_OK
+        );
     }
 
     public function getMe()

@@ -32,32 +32,42 @@ class AuthControllerTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonStructure(['user']);
 
-        $this->assertDatabaseHas('users', [
-            'name' => $data['name'],
-            'email' => $data['email'],
-        ]);
+        $this->assertDatabaseHas(
+            'users',
+            [
+                'name' => $data['name'],
+                'email' => $data['email'],
+            ]
+        );
     }
 
     public function test_login()
     {
         //given
         $this->passportInstall();
-        $user = factory(User::class)->create([
-            'password' => Hash::make($this->password)
-        ]);
+        $user = factory(User::class)->create(
+            [
+                'password' => Hash::make($this->password)
+            ]
+        );
 
         //when
-        $response = $this->post('/api/login', [
-            'email' => $user->email,
-            'password' => $this->password
-        ]);
+        $response = $this->post(
+            '/api/login',
+            [
+                'email' => $user->email,
+                'password' => $this->password
+            ]
+        );
 
         //then
         $response->assertStatus(Response::HTTP_OK)
-            ->assertJsonStructure([
-                'token',
-                'me'
-            ]);
+            ->assertJsonStructure(
+                [
+                    'token',
+                    'me'
+                ]
+            );
 
         $this->assertSame(1, DB::table('oauth_access_tokens')->count());
     }
@@ -105,7 +115,8 @@ class AuthControllerTest extends TestCase
     }
 
 
-    private function passportInstall() {
+    private function passportInstall()
+    {
         $this->artisan('passport:install');
     }
 }

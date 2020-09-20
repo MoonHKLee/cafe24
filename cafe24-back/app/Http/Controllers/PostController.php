@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function getPosts(Request $request)
     {
-        $posts = Post::with('user')->where("is_deleted","=",false)->orderByDesc("id")->get();
+        $posts = Post::with('user')->where("is_deleted", "=", false)->orderByDesc("id")->get();
         return response()->json(
             [
                 'posts' => $posts
