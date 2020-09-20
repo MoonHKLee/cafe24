@@ -18,6 +18,8 @@
 
 0.Back-end 실행 후 nodeJS npm or yarn 설치
 
-1.yarn install
+1.cafe24-front 디렉토리로 이동
 
-2.yarn dev
+2.yarn install
+
+3.yarn dev
