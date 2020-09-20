@@ -1,6 +1,4 @@
-# cafe24
-
-Back-End 실행방법
+# Back-End 실행방법
 
 0.composer & php 설치 .env 파일에서 DB 연결부분 자신에게 맞게 수정
 
@@ -16,7 +14,7 @@ Back-End 실행방법
 
 
 
-Front-End 실행방법
+# Front-End 실행방법
 
 0.Back-end 실행 후 nodeJS npm or yarn 설치
 
